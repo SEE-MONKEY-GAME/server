@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply labels from labels.json
+      - name: Apply labels from labels.yml
         uses: crazy-max/ghaction-github-labeler@v5
         with:
           github-token: ${{ secrets.TOKEN }}
-          config-file: .github/labels.json
+          yaml-file: .github/labels.yml
           skip-delete: true
+
