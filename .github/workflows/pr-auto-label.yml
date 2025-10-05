@@ -1,0 +1,66 @@
+name: PR auto labels
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Remove mutually exclusive labels
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: |
+            ✨ feat
+            🐛 fix
+            🔧 chore
+            📄 docs
+            ♻️ refactoring
+            🧪 test
+            🧹 cleanup
+
+      # 접두어 매칭 후 해당 라벨 부여
+      - name: Add feat
+        if: ${{ startsWith(github.event.pull_request.title, 'feat:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "✨ feat"
+
+      - name: Add fix
+        if: ${{ startsWith(github.event.pull_request.title, 'fix:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🐛 fix"
+
+      - name: Add chore
+        if: ${{ startsWith(github.event.pull_request.title, 'chore:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🔧 chore"
+
+      - name: Add docs
+        if: ${{ startsWith(github.event.pull_request.title, 'docs:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "📄 docs"
+
+      - name: Add refactoring
+        if: ${{ startsWith(github.event.pull_request.title, 'refactor:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "♻️ refactor"
+
+      - name: Add test
+        if: ${{ startsWith(github.event.pull_request.title, 'test:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🧪 test"
+
+      - name: Add cleanup
+        if: ${{ startsWith(github.event.pull_request.title, 'cleanup:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🧹 cleanup"

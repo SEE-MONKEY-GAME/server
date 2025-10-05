@@ -1,0 +1,19 @@
+name: Sync labels
+
+on:
+  push:
+    paths:
+      - ".github/labels.json"
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply labels from labels.json
+        uses: crazy-max/ghaction-github-labeler@v5
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          config-file: .github/labels.json
+          skip-delete: true
