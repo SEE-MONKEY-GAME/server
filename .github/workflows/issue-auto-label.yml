@@ -60,3 +60,39 @@ jobs:
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: "🙋 help wanted"
+          
+      - name: Add feat
+        if: ${{ startsWith(github.event.pull_request.title, 'feat:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "✨ feat"
+
+      - name: Add chore
+        if: ${{ startsWith(github.event.pull_request.title, 'chore:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🔧 chore"
+
+      - name: Add docs
+        if: ${{ startsWith(github.event.pull_request.title, 'docs:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "📄 docs"
+
+      - name: Add refactoring
+        if: ${{ startsWith(github.event.pull_request.title, 'refactor:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "♻️ refactor"
+
+      - name: Add test
+        if: ${{ startsWith(github.event.pull_request.title, 'test:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🧪 test"
+
+      - name: Add cleanup
+        if: ${{ startsWith(github.event.pull_request.title, 'cleanup:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🧹 cleanup"
