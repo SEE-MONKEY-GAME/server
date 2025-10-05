@@ -13,8 +13,8 @@ import com.seemonkey.bananajump.common.response.BaseResponse;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(CustomException.class)
-	public ResponseEntity<BaseResponse<Void>> handleException(CustomException ex) {
-		return BaseResponse.error(ex.getErrorType());
+	public ResponseEntity<BaseResponse<Void>> handleException(CustomException e) {
+		return BaseResponse.error(e.getErrorType());
 	}
 
 	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
