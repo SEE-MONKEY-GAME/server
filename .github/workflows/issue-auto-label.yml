@@ -1,0 +1,62 @@
+name: Issue auto labels
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+
+      # -----------------------------------------
+      # 1) 작성자(issuer)별 담당자 라벨
+      # -----------------------------------------
+      - name: Add owner label for 5ooyeon
+        if: ${{ github.event.issue.user.login == '5ooyeon' }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "👤 @5ooyeon"
+
+      - name: Add owner label for goldenkiwi-hyeuk
+        if: ${{ github.event.issue.user.login == 'goldenkiwi-hyeuk' }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "👤 @goldenkiwi-hyeuk"
+
+      # -----------------------------------------
+      # 2) 이슈 타입 라벨 정리(제목 접두어 기반)
+      #    - title이 바뀐 경우를 대비해 기존 타입 라벨 제거 후 다시 부여
+      #    - 접두어 예: bug:, fix:, question:, help:
+      # -----------------------------------------
+
+      # 2-1) 기존 타입 라벨 제거
+      - name: Remove previous type labels
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: |
+            🐞 bug
+            ❓ question
+            🙋 help wanted
+
+      # 2-2) 타입 라벨 부여 (여러 접두어 지원)
+      - name: Label as bug
+        if: ${{ startsWith(github.event.issue.title, 'bug:') || startsWith(github.event.issue.title, 'fix:') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🐞 bug"
+
+      - name: Label as question
+        if: ${{ startsWith(github.event.issue.title, 'question:') || contains(github.event.issue.title, '[question]') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "❓ question"
+
+      - name: Label as help wanted
+        if: ${{ startsWith(github.event.issue.title, 'help:') || contains(github.event.issue.title, '[help]') }}
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "🙋 help wanted"
