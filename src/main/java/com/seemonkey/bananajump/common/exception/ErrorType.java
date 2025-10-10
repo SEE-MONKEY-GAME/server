@@ -37,7 +37,6 @@ public enum ErrorType {
 	// ===============================
 	INVALID_DELTA(HttpStatus.BAD_REQUEST, "BANANA-001", "banana 증감값은 0보다 커야 합니다."),
 	INSUFFICIENT_BANANA(HttpStatus.BAD_REQUEST, "BANANA-002", "보유 바나나가 부족합니다."),
-	NEGATIVE_BALANCE(HttpStatus.INTERNAL_SERVER_ERROR, "BANANA-003", "재화 잔액이 음수가 될 수 없습니다."),
 
 	// ===============================
 	// [Item / 상점]
