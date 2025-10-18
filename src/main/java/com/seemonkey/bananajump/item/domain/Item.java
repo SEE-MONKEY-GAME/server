@@ -29,7 +29,7 @@ public class Item {
 	@Column(name = "item_cost", nullable = false)
 	private Long cost;
 
-	public static Item of(String name, long cost) {
-		return new Item(null, name, cost);
-	}
+	@Column(name="item_code", nullable = false)
+	private String code;
+
 }

@@ -37,7 +37,7 @@ public class Costume {
 	@Column(name = "costume_cost", nullable = false)
 	private Long cost;
 
-	public static Costume of(String name, CostumeType type, long cost) {
-		return new Costume(null, name, type, cost);
-	}
+	@Column(name = "costume_code", nullable = false)
+	private String code;
+
 }
