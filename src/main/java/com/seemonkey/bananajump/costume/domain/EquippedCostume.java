@@ -3,15 +3,14 @@ package com.seemonkey.bananajump.costume.domain;
 import com.seemonkey.bananajump.member.domain.Profile;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,22 +20,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "member_equipment")
+@Table(name = "equipped_costume")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class MemberEquipment {
+public class EquippedCostume {
 
-	@Id
-	@Column(name = "member_id")
-	private Long memberId;
+	@EmbeddedId
+	private EquippedCostumeId id;
 
-	@MapsId
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@MapsId("memberId")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "member_id")
 	private Profile profile;
+
+	@MapsId("closetId")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "closet_id")
+	private Closet closet;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "costume_type", nullable = false)
