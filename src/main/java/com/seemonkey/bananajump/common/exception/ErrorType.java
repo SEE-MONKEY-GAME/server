@@ -33,10 +33,10 @@ public enum ErrorType {
 	INVALID_RECORD(HttpStatus.BAD_REQUEST, "RECORD-001", "record 값은 0 이상이어야 합니다."),
 
 	// ===============================
-	// [Banana / 재화 관련]
+	// [Coin / 재화 관련]
 	// ===============================
-	INVALID_DELTA(HttpStatus.BAD_REQUEST, "BANANA-001", "banana 증감값은 0보다 커야 합니다."),
-	INSUFFICIENT_BANANA(HttpStatus.BAD_REQUEST, "BANANA-002", "보유 바나나가 부족합니다."),
+	INVALID_DELTA(HttpStatus.BAD_REQUEST, "COIN-001", "코인 증감값은 0보다 커야 합니다."),
+	INSUFFICIENT_COIN(HttpStatus.BAD_REQUEST, "COIN-002", "보유 바나나코인이 부족합니다."),
 
 	// ===============================
 	// [Item / 상점]

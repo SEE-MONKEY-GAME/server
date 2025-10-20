@@ -64,17 +64,17 @@ public class Profile {
 			this.topRecord = newRecord;
 	}
 
-	public void addBanana(Long delta) {
+	public void addCoin(Long delta) {
 		if (delta <= 0)
 			throw new CustomException(ErrorType.INVALID_DELTA);
 		this.coin += delta;
 	}
 
-	public void useBanana(Long amount) {
+	public void useCoin(Long amount) {
 		if (amount <= 0)
 			throw new CustomException(ErrorType.INVALID_DELTA);
 		if (this.coin < amount)
-			throw new CustomException(ErrorType.INSUFFICIENT_BANANA);
+			throw new CustomException(ErrorType.INSUFFICIENT_COIN);
 		this.coin -= amount;
 	}
 
