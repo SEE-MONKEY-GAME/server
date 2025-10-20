@@ -4,7 +4,6 @@ import java.time.OffsetDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.domain.Profile;
 
 import jakarta.persistence.Column;
@@ -15,8 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
