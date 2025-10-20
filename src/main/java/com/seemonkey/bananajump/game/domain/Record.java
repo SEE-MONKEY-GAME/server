@@ -1,13 +1,13 @@
-package com.seemonkey.bananajump.costume.domain;
+package com.seemonkey.bananajump.game.domain;
 
 import java.time.OffsetDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.domain.Profile;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,37 +16,47 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "closet")
+@Table(name = "record")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Closet {
+public class Record {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "closet_id")
+	@Column(name = "record_id")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "member_id")
 	private Profile profile;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "costume_id")
-	private Costume costume;
+	@Column(name = "started_at", nullable = false, updatable = false)
+	private OffsetDateTime startedAt;
 
-	@CreatedDate
-	@Column(name = "created_at", nullable = false, updatable = false)
-	private OffsetDateTime createdAt;
+	@Column(name = "ended_at", nullable = false, updatable = false)
+	private OffsetDateTime endedAt;
+
+	@Column(name = "score", nullable = false)
+	private int score;
+
+	@Column(name = "banana1", nullable = false)
+	private int banana1;
+
+	@Column(name = "banana2", nullable = false)
+	private int banana2;
+
+	@Column(name = "banana3", nullable = false)
+	private int banana3;
+
 }
