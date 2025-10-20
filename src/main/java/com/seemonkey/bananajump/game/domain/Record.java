@@ -41,22 +41,14 @@ public class Record {
 	@JoinColumn(name = "member_id")
 	private Profile profile;
 
-	@Column(name = "started_at", nullable = false, updatable = false)
-	private OffsetDateTime startedAt;
-
-	@Column(name = "ended_at", nullable = false, updatable = false)
-	private OffsetDateTime endedAt;
+	@CreatedDate
+	@Column(name = "created_at", nullable = false, updatable = false)
+	private OffsetDateTime createdAt;
 
 	@Column(name = "score", nullable = false)
 	private int score;
 
-	@Column(name = "banana1", nullable = false)
-	private int banana1;
-
-	@Column(name = "banana2", nullable = false)
-	private int banana2;
-
-	@Column(name = "banana3", nullable = false)
-	private int banana3;
+	@Column(name = "coin", nullable = false)
+	private Long coin;
 
 }
