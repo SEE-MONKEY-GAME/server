@@ -39,9 +39,9 @@ public class Profile {
 	@PositiveOrZero
 	private Long topRecord;
 
-	@Column(name = "banana", nullable = false)
+	@Column(name = "coin", nullable = false)
 	@PositiveOrZero
-	private Long banana;
+	private Long coin;
 
 	@Column(name = "last_checkin")
 	private LocalDate lastCheckin;
@@ -52,7 +52,7 @@ public class Profile {
 
 	@PrePersist
 	protected void onCreate() {
-		this.banana = 0L;
+		this.coin = 0L;
 		this.topRecord = 0L;
 		this.checkinStreak = 0L;
 	}
@@ -67,15 +67,15 @@ public class Profile {
 	public void addBanana(Long delta) {
 		if (delta <= 0)
 			throw new CustomException(ErrorType.INVALID_DELTA);
-		this.banana += delta;
+		this.coin += delta;
 	}
 
 	public void useBanana(Long amount) {
 		if (amount <= 0)
 			throw new CustomException(ErrorType.INVALID_DELTA);
-		if (this.banana < amount)
+		if (this.coin < amount)
 			throw new CustomException(ErrorType.INSUFFICIENT_BANANA);
-		this.banana -= amount;
+		this.coin -= amount;
 	}
 
 	public void checkIn() {
