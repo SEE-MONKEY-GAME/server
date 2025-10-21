@@ -30,6 +30,9 @@ import lombok.NoArgsConstructor;
 public class Profile {
 
 	@Id
+	@Column(name = "member_id")
+	private Long memberId;
+
 	@MapsId
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "member_id")
