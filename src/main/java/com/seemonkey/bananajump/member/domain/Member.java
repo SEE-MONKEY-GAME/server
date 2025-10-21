@@ -1,5 +1,6 @@
 package com.seemonkey.bananajump.member.domain;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.SQLDelete;
@@ -40,14 +41,14 @@ public class Member {
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)
-	private OffsetDateTime createdAt;
+	private LocalDateTime createdAt;
 
 	@LastModifiedDate
 	@Column(name = "updated_at", nullable = false)
-	private OffsetDateTime updatedAt;
+	private LocalDateTime updatedAt;
 
 	@Column(name="deleted_at")
-	private OffsetDateTime deletedAt;
+	private LocalDateTime deletedAt;
 
 	public static Member of(Long socialId) {
 		return Member.builder()
