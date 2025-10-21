@@ -1,4 +1,4 @@
-package com.seemonkey.bananajump.inventory.domain;
+package com.seemonkey.bananajump.item.domain;
 
 import java.io.Serializable;
 
