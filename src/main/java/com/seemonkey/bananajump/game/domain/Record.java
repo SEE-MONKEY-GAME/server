@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.seemonkey.bananajump.game.dto.SendResultReqDto;
 import com.seemonkey.bananajump.member.domain.Profile;
 
 import jakarta.persistence.Column;
@@ -43,9 +44,18 @@ public class Record {
 	private OffsetDateTime createdAt;
 
 	@Column(name = "score", nullable = false)
-	private int score;
+	private Long score;
 
 	@Column(name = "coin", nullable = false)
 	private Long coin;
+
+
+	public static Record from(SendResultReqDto dto, Profile profile) {
+		return Record.builder()
+			.profile(profile)
+			.score(dto.score())
+			.coin(dto.coin())
+			.build();
+	}
 
 }
