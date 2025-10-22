@@ -37,6 +37,15 @@ public class BaseResponse<T> {
 				.build());
 	}
 
+	public static <T> ResponseEntity<BaseResponse<T>> ok() {
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(BaseResponse.<T>builder()
+				.status(HttpStatus.OK.value())
+				.code(HttpStatus.OK.name())
+				.timestamp(OffsetDateTime.now())
+				.build());
+	}
+
 	public static <T> ResponseEntity<BaseResponse<T>> created(T data) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(BaseResponse.<T>builder()

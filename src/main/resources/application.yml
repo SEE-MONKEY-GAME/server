@@ -9,7 +9,11 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
 
+bananajump:
+  item:
+    limits:
+      default-max: 50
