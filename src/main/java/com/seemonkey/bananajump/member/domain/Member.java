@@ -1,7 +1,6 @@
 package com.seemonkey.bananajump.member.domain;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
@@ -47,7 +46,7 @@ public class Member {
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
 
-	@Column(name="deleted_at")
+	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 
 	public static Member of(Long socialId) {

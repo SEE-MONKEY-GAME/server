@@ -3,8 +3,6 @@ package com.seemonkey.bananajump.member.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.seemonkey.bananajump.item.domain.Inventory;
-import com.seemonkey.bananajump.item.domain.InventoryId;
 import com.seemonkey.bananajump.item.repository.InventoryRepository;
 import com.seemonkey.bananajump.item.repository.ItemRepository;
 import com.seemonkey.bananajump.member.domain.Member;
@@ -25,11 +23,11 @@ public class MemberServiceImpl implements MemberService {
 	private final InventoryRepository inventoryRepository;
 
 	@Override
-	public void createUser(Long memberId) {
+	public void createUser(Long socialId) {
 
 		// member Entity
 		Member member = Member.builder()
-			.socialId(1L)
+			.socialId(socialId)
 			.build();
 
 		memberRepository.save(member);
@@ -40,17 +38,6 @@ public class MemberServiceImpl implements MemberService {
 			.build();
 
 		profileRepository.save(profile);
-
-		// item inventory
-		itemRepository.findAll().forEach(item -> {
-			InventoryId id = new InventoryId(member.getMemberId(), item.getId());
-			Inventory inv = Inventory.builder()
-				.id(id)
-				.profile(profile)
-				.item(item)
-				.build();
-			inventoryRepository.save(inv);
-		});
 
 	}
 }
