@@ -3,12 +3,26 @@ package com.seemonkey.bananajump.item.domain;
 import com.seemonkey.bananajump.common.exception.CustomException;
 import com.seemonkey.bananajump.common.exception.ErrorType;
 import com.seemonkey.bananajump.member.domain.Profile;
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "inventory")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -30,13 +44,10 @@ public class Inventory {
 	@Column(name = "quantity", nullable = false)
 	private Long quantity;
 
-	@PrePersist
-	protected void onCreate() {
-		this.quantity = 0L;
-	}
-
-	public void addItem() {
-		this.quantity ++;
+	public void useItem() {
+		if (this.quantity <= 0)
+			throw new CustomException(ErrorType.INSUFFICIENT_ITEM_QUANTITY);
+		this.quantity -= 1;
 	}
 
 }

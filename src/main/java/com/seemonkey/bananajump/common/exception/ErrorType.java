@@ -43,6 +43,8 @@ public enum ErrorType {
 	// ===============================
 	ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "ITEM-001", "아이템을 찾을 수 없습니다."),
 	ITEM_MAX_LIMIT(HttpStatus.BAD_REQUEST, "ITEM-002", "아이템의 최대 보유 개수를 초과했습니다."),
+	ITEM_NOT_OWNED(HttpStatus.BAD_REQUEST, "ITEM-003", "아이템을 보유하고 있지 않습니다."),
+	INSUFFICIENT_ITEM_QUANTITY(HttpStatus.BAD_REQUEST, "ITEM-004", "아이템 보유 개수가 부족합니다."),
 
 	// ===============================
 	// [Costume / 장착 아이템]
