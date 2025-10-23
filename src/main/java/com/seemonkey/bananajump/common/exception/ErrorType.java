@@ -58,6 +58,10 @@ public enum ErrorType {
 	ALREADY_CHECKED_IN(HttpStatus.BAD_REQUEST, "ATTENDANCE-001", "오늘은 이미 출석했습니다."),
 	INVALID_CHECKIN_DATE(HttpStatus.BAD_REQUEST, "ATTENDANCE-002", "잘못된 출석 일자입니다."),
 
+	// ===============================
+	// [Feedback / 피드백 관련]
+	// ===============================
+	DISCORD_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "DISCORD-001", "디스코드 전송 중 오류가 발생했습니다."),
 	;
 
 	private final HttpStatus status;

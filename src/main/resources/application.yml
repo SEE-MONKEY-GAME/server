@@ -17,3 +17,6 @@ bananajump:
   item:
     limits:
       default-max: 50
+
+discord:
+  webhook-url: ${WEBHOOK_URL}
