@@ -7,5 +7,5 @@ import com.seemonkey.bananajump.item.dto.ItemDto;
 public interface ItemService {
 	List<ItemDto.GetItemListResDto> getItemList(Long memberId);
 
-	void buyItem(Long itemId, Long memberId);
+	void buyItem(Long itemId, Long memberId, int quantity);
 }

@@ -30,7 +30,7 @@ public class ItemController {
 
 	@PostMapping("/{itemId}")
 	public ResponseEntity<BaseResponse<Void>> buyItem(@PathVariable Long itemId) {
-		itemService.buyItem(itemId, 1L);
+		itemService.buyItem(itemId, 1L, 1);
 		return BaseResponse.ok();
 	}
 }

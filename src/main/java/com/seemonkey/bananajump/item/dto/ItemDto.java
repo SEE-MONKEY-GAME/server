@@ -26,5 +26,9 @@ public record ItemDto(
 		public static GetItemListResDto from(Inventory inventory) {
 			return new GetItemListResDto(ItemDto.from(inventory.getItem()), inventory.getQuantity());
 		}
+
+		public static GetItemListResDto from(Item item, long quantity) {
+			return new GetItemListResDto(ItemDto.from(item), quantity);
+		}
 	}
 }
