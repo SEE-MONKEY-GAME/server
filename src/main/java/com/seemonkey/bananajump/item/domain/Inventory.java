@@ -1,6 +1,7 @@
-package com.seemonkey.bananajump.inventory.domain;
+package com.seemonkey.bananajump.item.domain;
 
-import com.seemonkey.bananajump.item.domain.Item;
+import com.seemonkey.bananajump.common.exception.CustomException;
+import com.seemonkey.bananajump.common.exception.ErrorType;
 import com.seemonkey.bananajump.member.domain.Profile;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,4 +29,14 @@ public class Inventory {
 
 	@Column(name = "quantity", nullable = false)
 	private Long quantity;
+
+	@PrePersist
+	protected void onCreate() {
+		this.quantity = 0L;
+	}
+
+	public void addItem() {
+		this.quantity ++;
+	}
+
 }
