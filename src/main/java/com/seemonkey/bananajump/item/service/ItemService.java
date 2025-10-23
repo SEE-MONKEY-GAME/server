@@ -8,4 +8,6 @@ public interface ItemService {
 	List<ItemDto.GetItemListResDto> getItemList(Long memberId);
 
 	void buyItem(Long itemId, Long memberId, int quantity);
+
+	void useItem(Long itemId, Long memberId);
 }

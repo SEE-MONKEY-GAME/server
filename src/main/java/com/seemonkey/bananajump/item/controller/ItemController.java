@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,12 @@ public class ItemController {
 	@PostMapping("/{itemId}")
 	public ResponseEntity<BaseResponse<Void>> buyItem(@PathVariable Long itemId) {
 		itemService.buyItem(itemId, 1L, 1);
+		return BaseResponse.ok();
+	}
+
+	@PatchMapping("/{itemId}")
+	public ResponseEntity<BaseResponse<Void>> useItem(@PathVariable Long itemId) {
+		itemService.useItem(itemId, 1L);
 		return BaseResponse.ok();
 	}
 }

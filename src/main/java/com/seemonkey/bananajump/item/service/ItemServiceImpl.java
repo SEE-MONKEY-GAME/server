@@ -78,4 +78,15 @@ public class ItemServiceImpl implements ItemService {
 
 	}
 
+	@Override
+	public void useItem(Long itemId, Long memberId) {
+		Inventory inv = inventoryRepository.findById_MemberIdAndId_ItemId(memberId, itemId)
+			.orElseThrow(() -> new CustomException(ErrorType.ITEM_NOT_OWNED));
+
+		inv.useItem();
+
+		if (inv.getQuantity() == 0)
+			inventoryRepository.delete(inv);
+	}
+
 }
