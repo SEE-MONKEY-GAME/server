@@ -7,6 +7,7 @@ import com.seemonkey.bananajump.item.repository.InventoryRepository;
 import com.seemonkey.bananajump.item.repository.ItemRepository;
 import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.domain.Profile;
+import com.seemonkey.bananajump.member.dto.BasicMemberDto;
 import com.seemonkey.bananajump.member.repository.MemberRepository;
 import com.seemonkey.bananajump.member.repository.ProfileRepository;
 
@@ -39,5 +40,12 @@ public class MemberServiceImpl implements MemberService {
 
 		profileRepository.save(profile);
 
+	}
+
+	@Override
+	public BasicMemberDto getMemberProfile(Long memberId) {
+		Profile profile = profileRepository.findByMember_MemberId(memberId);
+
+		return BasicMemberDto.from(profile);
 	}
 }
