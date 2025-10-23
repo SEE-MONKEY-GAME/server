@@ -2,6 +2,7 @@ package com.seemonkey.bananajump.item.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,15 @@ public class ItemServiceImpl implements ItemService {
 		Profile profile = profileRepository.findByMember_MemberId(memberId);
 		Item item = itemRepository.findById(itemId)
 			.orElseThrow(() -> new CustomException(ErrorType.ITEM_NOT_FOUND));
+
+		// item 개수 체크
+		int currentQty = Optional.ofNullable(
+			inventoryRepository.findQuantity(memberId, item.getId())
+		).orElse(0);
+
+		// 상한 체크: current + 구매수량 > 50이면 에러
+		if (currentQty + quantity > DEFAULT_MAX_LIMIT)
+			throw new CustomException(ErrorType.ITEM_MAX_LIMIT);
 
 		// 전체 금액 계산 (현재 quantity 는 고정 1)
 		Long totalCost = item.getCost() * quantity;
