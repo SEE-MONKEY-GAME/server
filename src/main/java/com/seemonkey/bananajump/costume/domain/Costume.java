@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,5 +40,9 @@ public class Costume {
 
 	@Column(name = "costume_code", nullable = false)
 	private String code;
+
+	@Lob
+	@Column(name = "costume_desc")
+	private String desc;
 
 }
