@@ -51,6 +51,7 @@ public enum ErrorType {
 	// ===============================
 	COSTUME_NOT_FOUND(HttpStatus.NOT_FOUND, "COSTUME-001", "코스튬을 찾을 수 없습니다."),
 	INVALID_COSTUME_TYPE(HttpStatus.BAD_REQUEST, "COSTUME-002", "유효하지 않은 코스튬 타입입니다."),
+	COSTUME_ALREADY_OWNED(HttpStatus.BAD_REQUEST, "COSTUME-003", "이미 보유중인 코스튬입니다."),
 
 	// ===============================
 	// [Attendance / 출석]
