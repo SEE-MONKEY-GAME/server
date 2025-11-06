@@ -63,6 +63,7 @@ public enum ErrorType {
 	// [Feedback / 피드백 관련]
 	// ===============================
 	DISCORD_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "DISCORD-001", "디스코드 전송 중 오류가 발생했습니다."),
+	NOTION_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "NOTION-001", "노션 전송 중 오류가 발생했습니다."),
 	;
 
 	private final HttpStatus status;
