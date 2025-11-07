@@ -20,3 +20,10 @@ bananajump:
 
 discord:
   webhook-url: ${WEBHOOK_URL}
+
+notion:
+  api:
+    url: ${NOTION_API_URL}
+    key: ${NOTION_API_KEY}
+  database:
+    id: ${NOTION_DB_ID}
