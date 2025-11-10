@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,6 @@ public class CostumeController {
 
 	@GetMapping
 	public ResponseEntity<BaseResponse<List<CostumeDto.GetCostumeListDto>>> getCostumeList() {
-
 		return BaseResponse.ok(costumeService.getCostumeList(1L));
 	}
 
@@ -33,4 +33,11 @@ public class CostumeController {
 		costumeService.buyCostume(costumeId, 1L);
 		return BaseResponse.ok();
 	}
+
+	@PatchMapping("/{costumeId}")
+	public ResponseEntity<BaseResponse<Void>> equipCostume(@PathVariable Long costumeId) {
+		costumeService.equipCostume(costumeId, 1L);
+		return BaseResponse.ok();
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.seemonkey.bananajump.costume.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,6 @@ public interface ClosetRepository extends JpaRepository<Closet, Long> {
 	List<Closet> findByProfileMemberId(Long memberId);
 
 	boolean existsByProfileMemberIdAndCostume(Long memberId, Costume costume);
+
+	Optional<Closet> findByProfileMemberIdAndCostume_Id(Long memberId, Long costumeId);
 }

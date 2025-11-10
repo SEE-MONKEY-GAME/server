@@ -8,4 +8,7 @@ public interface CostumeService {
 	List<CostumeDto.GetCostumeListDto> getCostumeList(Long memberId);
 
 	void buyCostume(Long costumeId, Long memberId);
+
+	void equipCostume(Long costumeId, Long memberId);
+
 }

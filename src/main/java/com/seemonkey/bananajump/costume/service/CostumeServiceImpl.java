@@ -1,6 +1,7 @@
 package com.seemonkey.bananajump.costume.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,9 +12,11 @@ import com.seemonkey.bananajump.common.exception.CustomException;
 import com.seemonkey.bananajump.common.exception.ErrorType;
 import com.seemonkey.bananajump.costume.domain.Closet;
 import com.seemonkey.bananajump.costume.domain.Costume;
+import com.seemonkey.bananajump.costume.domain.EquippedCostume;
 import com.seemonkey.bananajump.costume.dto.CostumeDto;
 import com.seemonkey.bananajump.costume.repository.ClosetRepository;
 import com.seemonkey.bananajump.costume.repository.CostumeRepository;
+import com.seemonkey.bananajump.costume.repository.EquippedCostumeRepository;
 import com.seemonkey.bananajump.member.domain.Profile;
 import com.seemonkey.bananajump.member.repository.ProfileRepository;
 
@@ -26,6 +29,7 @@ public class CostumeServiceImpl implements CostumeService {
 	private final CostumeRepository costumeRepository;
 	private final ClosetRepository closetRepository;
 	private final ProfileRepository profileRepository;
+	private final EquippedCostumeRepository equippedCostumeRepository;
 
 	@Override
 	public List<CostumeDto.GetCostumeListDto> getCostumeList(Long memberId) {
@@ -70,8 +74,33 @@ public class CostumeServiceImpl implements CostumeService {
 		profile.useCoin(totalCost);
 
 		// 인벤토리 갱신
-		closetRepository.save(Closet.from(costume, profile));
+		Closet closet = closetRepository.save(Closet.from(costume, profile));
 
+		// 새 코스튬 착용 저장
+		equippedCostumeRepository.save(EquippedCostume.from(profile, closet));
+
+	}
+
+	@Transactional
+	@Override
+	public void equipCostume(Long costumeId, Long memberId) {
+
+		// 유저 및 코스튬 가져오기
+		Profile profile = profileRepository.findByMember_MemberId(memberId);
+		Closet closet = closetRepository.findByProfileMemberIdAndCostume_Id(memberId, costumeId)
+			.orElseThrow(() -> new CustomException(ErrorType.COSTUME_NOT_FOUND));
+
+		// 동일 타입의 기존 착용 코스튬 확인
+		Optional<EquippedCostume> preOpt =
+			equippedCostumeRepository.findByProfileMemberIdAndCostumeType(
+				memberId, closet.getCostume().getType()
+			);
+
+		// 기존 착용 삭제 (있을 경우)
+		preOpt.ifPresent(equippedCostumeRepository::delete);
+
+		// 새 코스튬 착용 저장
+		equippedCostumeRepository.save(EquippedCostume.from(profile, closet));
 	}
 
 }

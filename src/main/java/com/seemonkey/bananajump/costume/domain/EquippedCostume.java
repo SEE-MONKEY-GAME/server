@@ -48,4 +48,13 @@ public class EquippedCostume {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "costume_id")
 	private Costume costume;
+
+	public static EquippedCostume from(Profile profile, Closet closet) {
+		return EquippedCostume.builder()
+			.profile(profile)
+			.closet(closet)
+			.costumeType(closet.getCostume().getType())
+			.costume(closet.getCostume())
+			.build();
+	}
 }
