@@ -14,4 +14,5 @@ public interface CostumeService {
 
 	void unsetEquipped(Long memberId, CostumeType type);
 
+	List<CostumeDto> getEquippedCostumeList(Long memberId);
 }

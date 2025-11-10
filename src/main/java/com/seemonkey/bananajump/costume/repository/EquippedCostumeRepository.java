@@ -1,5 +1,6 @@
 package com.seemonkey.bananajump.costume.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ import com.seemonkey.bananajump.costume.domain.EquippedCostumeId;
 
 public interface EquippedCostumeRepository extends JpaRepository<EquippedCostume, EquippedCostumeId> {
 	Optional<EquippedCostume> findByProfileMemberIdAndCostumeType(Long memberId, CostumeType type);
+
+	List<EquippedCostume> findByProfileMemberId(Long memberId);
 }

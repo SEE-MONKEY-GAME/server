@@ -108,6 +108,10 @@ public class CostumeServiceImpl implements CostumeService {
 			.ifPresent(equippedCostumeRepository::delete);
 	}
 
-
+	@Override
+	public List<CostumeDto> getEquippedCostumeList(Long memberId) {
+		List<EquippedCostume> equipments = equippedCostumeRepository.findByProfileMemberId(memberId);
+		return equipments.stream().map(equipment -> CostumeDto.from(equipment.getCostume())).toList();
+	}
 
 }
