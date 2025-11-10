@@ -12,6 +12,7 @@ import com.seemonkey.bananajump.common.exception.CustomException;
 import com.seemonkey.bananajump.common.exception.ErrorType;
 import com.seemonkey.bananajump.costume.domain.Closet;
 import com.seemonkey.bananajump.costume.domain.Costume;
+import com.seemonkey.bananajump.costume.domain.CostumeType;
 import com.seemonkey.bananajump.costume.domain.EquippedCostume;
 import com.seemonkey.bananajump.costume.dto.CostumeDto;
 import com.seemonkey.bananajump.costume.repository.ClosetRepository;
@@ -82,25 +83,31 @@ public class CostumeServiceImpl implements CostumeService {
 	}
 
 	@Transactional
-	@Override
-	public void equipCostume(Long costumeId, Long memberId) {
-
-		// 유저 및 코스튬 가져오기
+	public void setEquipped(Long memberId, CostumeType type, Long costumeId) {
 		Profile profile = profileRepository.findByMember_MemberId(memberId);
 		Closet closet = closetRepository.findByProfileMemberIdAndCostume_Id(memberId, costumeId)
 			.orElseThrow(() -> new CustomException(ErrorType.COSTUME_NOT_FOUND));
 
-		// 동일 타입의 기존 착용 코스튬 확인
 		Optional<EquippedCostume> preOpt =
-			equippedCostumeRepository.findByProfileMemberIdAndCostumeType(
-				memberId, closet.getCostume().getType()
-			);
+			equippedCostumeRepository.findByProfileMemberIdAndCostumeType(memberId, type);
 
-		// 기존 착용 삭제 (있을 경우)
+		// 이미 같은 코스튬 장착 중이면 멱등적으로 종료
+		if (preOpt.isPresent() && preOpt.get().getCostume().getId().equals(costumeId)) {
+			return;
+		}
+
 		preOpt.ifPresent(equippedCostumeRepository::delete);
 
-		// 새 코스튬 착용 저장
 		equippedCostumeRepository.save(EquippedCostume.from(profile, closet));
 	}
+
+
+	@Transactional
+	public void unsetEquipped(Long memberId, CostumeType type) {
+		equippedCostumeRepository.findByProfileMemberIdAndCostumeType(memberId, type)
+			.ifPresent(equippedCostumeRepository::delete);
+	}
+
+
 
 }
