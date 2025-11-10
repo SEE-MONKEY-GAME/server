@@ -39,15 +39,15 @@ public class CostumeController {
 	}
 
 	@PutMapping("/equipped/{type}")
-	public ResponseEntity<Void> equip(@PathVariable CostumeType type, @RequestBody EquipReqDto req) {
+	public ResponseEntity<BaseResponse<Void>> equip(@PathVariable CostumeType type, @RequestBody EquipReqDto req) {
 		costumeService.setEquipped(1L, type, req.costumeId());
-		return ResponseEntity.noContent().build();
+		return BaseResponse.ok();
 	}
 
 	@DeleteMapping("/equipped/{type}")
-	public ResponseEntity<Void> unEquip(@PathVariable CostumeType type) {
+	public ResponseEntity<BaseResponse<Void>> unEquip(@PathVariable CostumeType type) {
 		costumeService.unsetEquipped(1L, type);
-		return ResponseEntity.noContent().build();
+		return BaseResponse.ok();
 	}
 
 
