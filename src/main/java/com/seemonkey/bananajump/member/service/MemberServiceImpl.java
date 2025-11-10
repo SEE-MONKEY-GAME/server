@@ -46,6 +46,6 @@ public class MemberServiceImpl implements MemberService {
 	public BasicMemberDto getMemberProfile(Long memberId) {
 		Profile profile = profileRepository.findByMember_MemberId(memberId);
 
-		return BasicMemberDto.from(profile);
+		return BasicMemberDto.from(profile, null);
 	}
 }

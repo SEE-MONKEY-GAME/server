@@ -53,11 +53,15 @@ public class Profile {
 	@PositiveOrZero
 	private Long checkinStreak;
 
+	@Column(name = "sound", nullable = false)
+	private boolean sound;
+
 	@PrePersist
 	protected void onCreate() {
 		this.coin = 0L;
 		this.topRecord = 0L;
 		this.checkinStreak = 0L;
+		this.sound = true;
 	}
 
 	public void updateTopRecord(Long newRecord) {
@@ -84,5 +88,9 @@ public class Profile {
 	public void checkIn() {
 		this.lastCheckin = LocalDate.now();
 		this.checkinStreak = this.checkinStreak + 1;
+	}
+
+	public void soundOff() {
+		this.sound = false;
 	}
 }
