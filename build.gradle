@@ -25,7 +25,6 @@ repositories {
 }
 
 ext {
-	jwtVersion = '0.12.6'
 	securityVersion = '3.3.0'
 	securityTestVersion = '6.3.0'
 }
@@ -43,11 +42,6 @@ dependencies {
 	// Spring Security
 	implementation "org.springframework.boot:spring-boot-starter-security:${securityVersion}"
 	testImplementation "org.springframework.security:spring-security-test:${securityTestVersion}"
-
-	// JWT
-	implementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
-	implementation "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
-	implementation "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
 
 }
 
