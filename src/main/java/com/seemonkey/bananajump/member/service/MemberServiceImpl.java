@@ -1,12 +1,15 @@
 package com.seemonkey.bananajump.member.service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.seemonkey.bananajump.common.exception.CustomException;
 import com.seemonkey.bananajump.common.exception.ErrorType;
+import com.seemonkey.bananajump.item.service.ItemService;
+import com.seemonkey.bananajump.member.domain.CheckinReward;
 import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.domain.Profile;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
+	private final ItemService itemService;
 	private final MemberRepository memberRepository;
 	private final ProfileRepository profileRepository;
 
@@ -70,22 +74,33 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	@Override
 	public DailyCheckinResultResDto doCheckin(Long memberId) {
-		// 동시성 안전을 위해 잠금 버전 사용 (권장)
-		Profile profile = profileRepository.findByMemberIdForUpdate(memberId);
+
+		Profile profile = profileRepository.findByMember_MemberId(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
 
 		// 이미 오늘 체크인 했다면 예외
-		if (last != null && last.isEqual(today)) {
+		if (last != null && last.isEqual(today))
 			throw new CustomException(ErrorType.ALREADY_CHECKED_IN);
-		}
 
-		profile.checkIn();
+		int checkinStreak = profile.checkIn();
+		applyReward(profile, checkinStreak);
 
-		// (옵션) 보상 코인 지급이 필요하면 여기서 profile.addCoin(amount) 호출
-		// profile.addCoin(10L);
+		// todo: 토큰 새로 발급
 
 		return DailyCheckinResultResDto.from(getStatus(memberId));
+	}
+
+	private void applyReward(Profile profile, int checkinStreak) {
+
+		// streak 일치하는 보상 enum 찾기
+		CheckinReward reward = Arrays.stream(CheckinReward.values())
+			.filter(r -> r.getCheckinStreak() == checkinStreak)
+			.findFirst()
+			.orElseThrow(() -> new CustomException(ErrorType.INVALID_CHECKIN_DATE));
+
+		// 각 보상 apply 실행
+		reward.getRewards().forEach(r -> r.apply(profile, itemService));
 	}
 
 }
