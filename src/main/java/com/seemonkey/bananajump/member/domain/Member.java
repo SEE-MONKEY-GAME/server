@@ -36,7 +36,7 @@ public class Member {
 	private Long memberId;
 
 	@Column(name = "social_id", nullable = false)
-	private Long socialId;
+	private String socialId;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)
@@ -49,7 +49,7 @@ public class Member {
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 
-	public static Member of(Long socialId) {
+	public static Member of(String socialId) {
 		return Member.builder()
 			.socialId(socialId)
 			.build();

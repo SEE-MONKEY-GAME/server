@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seemonkey.bananajump.common.filter.MemberId;
 import com.seemonkey.bananajump.common.response.BaseResponse;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinResultResDto;
@@ -22,9 +23,9 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@GetMapping
-	public ResponseEntity<BaseResponse<BasicMemberDto>> getMemberProfile() {
+	public ResponseEntity<BaseResponse<BasicMemberDto>> getMemberProfile(@MemberId Long memberId) {
 
-		return BaseResponse.ok(memberService.getMemberProfile(1L));
+		return BaseResponse.ok(memberService.getMemberProfile(memberId));
 	}
 
 	@GetMapping("/daily-checkin")
