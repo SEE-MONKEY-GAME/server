@@ -90,7 +90,9 @@ public class Profile {
 		this.checkinStreak = this.checkinStreak + 1;
 	}
 
-	public void soundOff() {
-		this.sound = false;
+	public void setSound(boolean enabled) {
+		if (this.sound == enabled)
+			return;
+		this.sound = enabled;
 	}
 }

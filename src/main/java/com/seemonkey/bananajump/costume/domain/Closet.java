@@ -1,7 +1,6 @@
 package com.seemonkey.bananajump.costume.domain;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
