@@ -66,26 +66,33 @@ public class ItemServiceImpl implements ItemService {
 		Item item = itemRepository.findById(itemId)
 			.orElseThrow(() -> new CustomException(ErrorType.ITEM_NOT_FOUND));
 
+		// 전체 금액 계산
+		Long totalCost = item.getCost() * quantity;
+		if (profile.getCoin() < totalCost)
+			throw new CustomException(ErrorType.INSUFFICIENT_COIN);
+
+		// 결제 차감
+		profile.useCoin(totalCost);
+
+		// 아이템 지급
+		addItem(itemId, profile, quantity);
+
+	}
+
+	@Override
+	public void addItem(Long itemId, Profile profile, int quantity) {
+
 		// item 개수 체크
 		int currentQty = Optional.ofNullable(
-			inventoryRepository.findQuantity(memberId, item.getId())
+			inventoryRepository.findQuantity(profile.getMemberId(), itemId)
 		).orElse(0);
 
 		// 상한 체크: current + 구매수량 > 50이면 에러
 		if (currentQty + quantity > DEFAULT_MAX_LIMIT)
 			throw new CustomException(ErrorType.ITEM_MAX_LIMIT);
 
-		// 전체 금액 계산 (현재 quantity 는 고정 1)
-		Long totalCost = item.getCost() * quantity;
-		if (profile.getCoin() < totalCost)
-			throw new CustomException(ErrorType.INSUFFICIENT_COIN);
-
-		// 결제 차감
-		profile.useCoin(item.getCost());
-
 		// 인벤토리 갱신
-		int finalQuantity = inventoryRepository.upsertInventory(memberId, itemId, quantity);
-
+		int finalQuantity = inventoryRepository.upsertInventory(profile.getMemberId(), itemId, quantity);
 	}
 
 	@Override

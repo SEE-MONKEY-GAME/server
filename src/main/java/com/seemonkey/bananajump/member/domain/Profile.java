@@ -85,9 +85,11 @@ public class Profile {
 		this.coin -= amount;
 	}
 
-	public void checkIn() {
+	public Integer checkIn() {
 		this.lastCheckin = LocalDate.now();
 		this.checkinStreak = this.checkinStreak + 1;
+
+		return Math.toIntExact(this.checkinStreak);
 	}
 
 	public void setSound(boolean enabled) {

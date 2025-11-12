@@ -9,5 +9,5 @@ import com.seemonkey.bananajump.member.domain.Profile;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Member> {
 
-	Profile findByMember_MemberId(long id);
+	Profile findByMember_MemberId(Long memberId);
 }

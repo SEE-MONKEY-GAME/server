@@ -2,11 +2,14 @@ package com.seemonkey.bananajump.member.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seemonkey.bananajump.common.response.BaseResponse;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
+import com.seemonkey.bananajump.member.dto.DailyCheckinResultResDto;
+import com.seemonkey.bananajump.member.dto.DailyCheckinStatusResDto;
 import com.seemonkey.bananajump.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,5 +25,15 @@ public class MemberController {
 	public ResponseEntity<BaseResponse<BasicMemberDto>> getMemberProfile() {
 
 		return BaseResponse.ok(memberService.getMemberProfile(1L));
+	}
+
+	@GetMapping("/daily-checkin")
+	public ResponseEntity<BaseResponse<DailyCheckinStatusResDto>> getDailyCheckin() {
+		return BaseResponse.ok(memberService.getStatus(1L));
+	}
+
+	@PostMapping("/daily-checkin")
+	public ResponseEntity<BaseResponse<DailyCheckinResultResDto>> doDailyCheckin() {
+		return BaseResponse.ok(memberService.doCheckin(1L));
 	}
 }
