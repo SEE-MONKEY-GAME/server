@@ -3,14 +3,19 @@ package com.seemonkey.bananajump.costume.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seemonkey.bananajump.common.response.BaseResponse;
+import com.seemonkey.bananajump.costume.domain.CostumeType;
 import com.seemonkey.bananajump.costume.dto.CostumeDto;
+import com.seemonkey.bananajump.costume.dto.EquipReqDto;
 import com.seemonkey.bananajump.costume.service.CostumeService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +29,6 @@ public class CostumeController {
 
 	@GetMapping
 	public ResponseEntity<BaseResponse<List<CostumeDto.GetCostumeListDto>>> getCostumeList() {
-
 		return BaseResponse.ok(costumeService.getCostumeList(1L));
 	}
 
@@ -33,4 +37,18 @@ public class CostumeController {
 		costumeService.buyCostume(costumeId, 1L);
 		return BaseResponse.ok();
 	}
+
+	@PutMapping("/equipped/{type}")
+	public ResponseEntity<BaseResponse<Void>> equip(@PathVariable CostumeType type, @RequestBody EquipReqDto req) {
+		costumeService.setEquipped(1L, type, req.costumeId());
+		return BaseResponse.ok();
+	}
+
+	@DeleteMapping("/equipped/{type}")
+	public ResponseEntity<BaseResponse<Void>> unEquip(@PathVariable CostumeType type) {
+		costumeService.unsetEquipped(1L, type);
+		return BaseResponse.ok();
+	}
+
+
 }
