@@ -19,7 +19,7 @@ public class TestController {
 	private final MemberService memberService;
 
 	@GetMapping("{socialId}")
-	public ResponseEntity<BaseResponse<Void>> makeTestMember(@PathVariable Long socialId) {
+	public ResponseEntity<BaseResponse<Void>> makeTestMember(@PathVariable String socialId) {
 		memberService.createUser(socialId);
 		return BaseResponse.created();
 	}

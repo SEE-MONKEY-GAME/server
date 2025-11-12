@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 	private final CostumeService costumeService;
 
 	@Override
-	public void createUser(Long socialId) {
+	public void createUser(String socialId) {
 
 		// member Entity
 		Member member = Member.builder()
