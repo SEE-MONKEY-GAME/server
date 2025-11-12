@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seemonkey.bananajump.common.response.BaseResponse;
+import com.seemonkey.bananajump.common.response.MemberId;
 import com.seemonkey.bananajump.game.dto.SendResultReqDto;
 import com.seemonkey.bananajump.game.service.GameService;
 
@@ -20,8 +21,8 @@ public class GameController {
 	private final GameService gameService;
 
 	@PostMapping
-	public ResponseEntity<BaseResponse<Void>> sendResult(@RequestBody SendResultReqDto dto) {
-		gameService.sendResult(dto, 1L);
+	public ResponseEntity<BaseResponse<Void>> sendResult(@RequestBody SendResultReqDto dto, @MemberId Long memberId) {
+		gameService.sendResult(dto, memberId);
 
 		return BaseResponse.created();
 	}

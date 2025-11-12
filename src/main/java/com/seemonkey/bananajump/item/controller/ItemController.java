@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seemonkey.bananajump.common.response.BaseResponse;
+import com.seemonkey.bananajump.common.response.MemberId;
 import com.seemonkey.bananajump.item.dto.ItemDto;
 import com.seemonkey.bananajump.item.service.ItemService;
 
@@ -24,20 +25,20 @@ public class ItemController {
 	private final ItemService itemService;
 
 	@GetMapping
-	public ResponseEntity<BaseResponse<List<ItemDto.GetItemListResDto>>> getItemList() {
+	public ResponseEntity<BaseResponse<List<ItemDto.GetItemListResDto>>> getItemList(@MemberId Long memberId) {
 
-		return BaseResponse.ok(itemService.getItemList(1L));
+		return BaseResponse.ok(itemService.getItemList(memberId));
 	}
 
 	@PostMapping("/{itemId}")
-	public ResponseEntity<BaseResponse<Void>> buyItem(@PathVariable Long itemId) {
-		itemService.buyItem(itemId, 1L, 1);
+	public ResponseEntity<BaseResponse<Void>> buyItem(@PathVariable Long itemId, @MemberId Long memberId) {
+		itemService.buyItem(itemId, memberId, 1);
 		return BaseResponse.ok();
 	}
 
 	@PatchMapping("/{itemId}")
-	public ResponseEntity<BaseResponse<Void>> useItem(@PathVariable Long itemId) {
-		itemService.useItem(itemId, 1L);
+	public ResponseEntity<BaseResponse<Void>> useItem(@PathVariable Long itemId, @MemberId Long memberId) {
+		itemService.useItem(itemId, memberId);
 		return BaseResponse.ok();
 	}
 }

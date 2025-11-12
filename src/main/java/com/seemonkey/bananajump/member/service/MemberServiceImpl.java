@@ -33,23 +33,20 @@ public class MemberServiceImpl implements MemberService {
 	private final ProfileRepository profileRepository;
 	private final CostumeService costumeService;
 
-	@Override
-	public void createUser(Long socialId) {
 
-		// member Entity
-		Member member = Member.builder()
-			.socialId(socialId)
-			.build();
+	@Override
+	public Member getOrCreateMemberBySocialId(String token) {
+		return memberRepository.findBySocialId(token).orElseGet(
+			() -> createMember(token)
+		);
+	}
+
+	private Member createMember(String token) {
+		Member member = Member.of(token);
 
 		memberRepository.save(member);
-
-		// profile Entity
-		Profile profile = Profile.builder()
-			.member(member)
-			.build();
-
-		profileRepository.save(profile);
-
+		profileRepository.save(Profile.builder().member(member).build());
+		return member;
 	}
 
 	@Override
