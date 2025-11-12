@@ -72,7 +72,7 @@ public class Profile {
 	}
 
 	public void addCoin(Long delta) {
-		if (delta <= 0)
+		if (delta < 0)
 			throw new CustomException(ErrorType.INVALID_DELTA);
 		this.coin += delta;
 	}
