@@ -104,7 +104,13 @@ public class MemberServiceImpl implements MemberService {
 			.orElseThrow(() -> new CustomException(ErrorType.INVALID_CHECKIN_DATE));
 
 		// 각 보상 apply 실행
-		reward.getRewards().forEach(r -> r.apply(profile, itemService));
+		try {
+			reward.getRewards().forEach(r -> r.apply(profile, itemService));
+		} catch (CustomException e) {
+			if (e.getErrorType() != ErrorType.ITEM_MAX_LIMIT) {
+				throw e;
+			}
+		}
 	}
 
 }
