@@ -7,14 +7,16 @@ public record ItemDto(
 	Long id,
 	String name,
 	Long cost,
-	String code
+	String code,
+	String desc
 ) {
 	public static ItemDto from(Item item) {
 		return new ItemDto(
 			item.getId(),
 			item.getName(),
 			item.getCost(),
-			item.getCode()
+			item.getCode(),
+			item.getDesc()
 		);
 	}
 
