@@ -18,6 +18,7 @@ import com.seemonkey.bananajump.member.domain.Profile;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinResultResDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinStatusResDto;
+import com.seemonkey.bananajump.member.dto.SoundReqDto;
 import com.seemonkey.bananajump.member.repository.MemberRepository;
 import com.seemonkey.bananajump.member.repository.ProfileRepository;
 
@@ -41,6 +42,12 @@ public class MemberServiceImpl implements MemberService {
 		);
 	}
 
+	@Override
+	public void setSound(Long memberId, SoundReqDto req) {
+		Profile profile = getProfile(memberId);
+		profile.setBgmSound(req.type(), req.enabled());
+	}
+
 	private Member createMember(String token) {
 		Member member = Member.of(token);
 
@@ -51,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public BasicMemberDto getMemberProfile(Long memberId) {
-		Profile profile = profileRepository.findByMember_MemberId(memberId);
+		Profile profile = getProfile(memberId);
 		List<CostumeDto> closetList = costumeService.getEquippedCostumeList(memberId);
 		return BasicMemberDto.from(profile, closetList);
 	}
@@ -59,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = true)
 	@Override
 	public DailyCheckinStatusResDto getStatus(Long memberId) {
-		Profile profile = profileRepository.findByMember_MemberId(memberId);
+		Profile profile = getProfile(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
 		boolean checked = last != null && last.isEqual(today);
@@ -76,7 +83,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public DailyCheckinResultResDto doCheckin(Long memberId) {
 
-		Profile profile = profileRepository.findByMember_MemberId(memberId);
+		Profile profile = getProfile(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
 
@@ -86,8 +93,6 @@ public class MemberServiceImpl implements MemberService {
 
 		int checkinStreak = profile.checkIn();
 		applyReward(profile, checkinStreak);
-
-		// todo: 토큰 새로 발급
 
 		return DailyCheckinResultResDto.from(getStatus(memberId));
 	}
@@ -108,6 +113,10 @@ public class MemberServiceImpl implements MemberService {
 				throw e;
 			}
 		}
+	}
+
+	private Profile getProfile(Long memberId) {
+		return profileRepository.findByMember_MemberId(memberId);
 	}
 
 }

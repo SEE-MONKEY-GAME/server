@@ -4,6 +4,7 @@ import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinResultResDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinStatusResDto;
+import com.seemonkey.bananajump.member.dto.SoundReqDto;
 
 public interface MemberService {
 
@@ -14,4 +15,6 @@ public interface MemberService {
 	DailyCheckinResultResDto doCheckin(Long memberId);
 
 	Member getOrCreateMemberBySocialId(String token);
+
+	void setSound(Long memberId, SoundReqDto req);
 }
