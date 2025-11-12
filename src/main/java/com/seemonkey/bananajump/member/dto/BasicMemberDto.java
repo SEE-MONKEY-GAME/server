@@ -12,12 +12,13 @@ public record BasicMemberDto(
 	Long checkinStreak,
 	Boolean todayCheckIn,
 	Long topRecord,
-	boolean sound,
+	boolean bgmSound,
+	boolean effectSound,
 	List<CostumeDto> equipment
 ) {
 	public static BasicMemberDto from(Profile profile, List<CostumeDto> equipment) {
 		Boolean todayCheckIn = profile.getLastCheckin() != null && !profile.getLastCheckin().isBefore(LocalDate.now());
 		return new BasicMemberDto(profile.getMemberId(), profile.getCoin(), profile.getCheckinStreak(), todayCheckIn,
-			profile.getTopRecord(), profile.isSound(), equipment);
+			profile.getTopRecord(), profile.isBgmSound(), profile.isEffectSound(), equipment);
 	}
 }

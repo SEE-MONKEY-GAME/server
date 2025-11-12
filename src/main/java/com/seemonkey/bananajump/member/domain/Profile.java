@@ -53,15 +53,19 @@ public class Profile {
 	@PositiveOrZero
 	private Long checkinStreak;
 
-	@Column(name = "sound", nullable = false)
-	private boolean sound;
+	@Column(name = "bgm_sound", nullable = false)
+	private boolean bgmSound;
+
+	@Column(name = "effect_sound", nullable = false)
+	private boolean effectSound;
 
 	@PrePersist
 	protected void onCreate() {
 		this.coin = 0L;
 		this.topRecord = 0L;
 		this.checkinStreak = 0L;
-		this.sound = true;
+		this.bgmSound = true;
+		this.effectSound = true;
 	}
 
 	public void updateTopRecord(Long newRecord) {
@@ -92,9 +96,23 @@ public class Profile {
 		return Math.toIntExact(this.checkinStreak);
 	}
 
-	public void setSound(boolean enabled) {
-		if (this.sound == enabled)
-			return;
-		this.sound = enabled;
+	public enum SoundType {
+		BGM, EFFECT;
+	}
+
+	public void setBgmSound(SoundType type, boolean enabled) {
+
+		switch (type) {
+			case BGM -> {
+				if (bgmSound != enabled) {
+					bgmSound = enabled;
+				}
+			}
+			case EFFECT -> {
+				if (effectSound != enabled) {
+					effectSound = enabled;
+				}
+			}
+		}
 	}
 }

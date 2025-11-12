@@ -2,7 +2,9 @@ package com.seemonkey.bananajump.member.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +13,7 @@ import com.seemonkey.bananajump.common.response.MemberId;
 import com.seemonkey.bananajump.member.dto.BasicMemberDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinResultResDto;
 import com.seemonkey.bananajump.member.dto.DailyCheckinStatusResDto;
+import com.seemonkey.bananajump.member.dto.SoundReqDto;
 import com.seemonkey.bananajump.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,5 +39,11 @@ public class MemberController {
 	@PostMapping("/daily-checkin")
 	public ResponseEntity<BaseResponse<DailyCheckinResultResDto>> doDailyCheckin(@MemberId Long memberId) {
 		return BaseResponse.ok(memberService.doCheckin(memberId));
+	}
+
+	@PatchMapping("/sound")
+	public ResponseEntity<BaseResponse<Void>> setSound(@MemberId Long memberId, @RequestBody SoundReqDto req) {
+		memberService.setSound(memberId, req);
+		return BaseResponse.ok();
 	}
 }
