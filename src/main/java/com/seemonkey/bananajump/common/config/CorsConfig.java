@@ -11,7 +11,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.seemonkey.bananajump.common.jwt.MemberIdArgumentResolver;
+import com.seemonkey.bananajump.common.resolver.MemberIdArgumentResolver;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,9 +33,8 @@ public class CorsConfig implements WebMvcConfigurer {
 		configuration.setAllowedOriginPatterns(
 			List.of("http://localhost:5173",
 				"https://banana-jump.vercel.app",
-				"https://statoverflow.cloud",
 				"http://localhost:8080",
-				"https://bananajump.shop",
+				"https://bananajump.shop/**",
 				"https://**"));
 		// 허용 메서드 지정
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

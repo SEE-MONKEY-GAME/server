@@ -1,4 +1,4 @@
-package com.seemonkey.bananajump.common.jwt;
+package com.seemonkey.bananajump.common.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.seemonkey.bananajump.common.exception.CustomException;
 import com.seemonkey.bananajump.common.exception.ErrorType;
-import com.seemonkey.bananajump.common.filter.MemberId;
+import com.seemonkey.bananajump.common.response.MemberId;
 
 @Component
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {

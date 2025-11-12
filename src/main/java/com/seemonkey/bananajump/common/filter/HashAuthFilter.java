@@ -18,11 +18,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import com.seemonkey.bananajump.auth.AuthService;
-import com.seemonkey.bananajump.common.exception.CustomException;
-import com.seemonkey.bananajump.common.exception.ErrorType;
 import com.seemonkey.bananajump.member.domain.Member;
 import com.seemonkey.bananajump.member.repository.MemberRepository;
+import com.seemonkey.bananajump.member.service.MemberService;
 
 @Slf4j
 @Component
@@ -36,7 +34,7 @@ public class HashAuthFilter extends OncePerRequestFilter {
 	// 인증 제외 경로
 	private static final List<String> EXCLUDE = List.of(
 	);
-	private final AuthService authService;
+	private final MemberService memberService;
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -55,7 +53,7 @@ public class HashAuthFilter extends OncePerRequestFilter {
 
 		String authz = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-		// Authorization 없거나 다른 스킴이면 통과(익명)
+		// Authorization 없거나 다른 스킴이면 통과
 		if (authz == null || !authz.startsWith(SCHEME)) {
 			chain.doFilter(request, response);
 			return;
@@ -69,11 +67,11 @@ public class HashAuthFilter extends OncePerRequestFilter {
 
 		try {
 			// 1) 토큰 검증 + 사용자 로드
-			Member member = authService.getOrCreateMemberBySocialId(token);
+			Member member = memberService.getOrCreateMemberBySocialId(token);
 
 			Long memberId = member.getMemberId();
 
-			// 예시) Authorization: Hash <token> -> token으로 memberId 조회 후 SecurityContext에 저장
+			// 예시) Authorization: Hash <token> -> token으로 memberId 조회
 			Authentication auth = new UsernamePasswordAuthenticationToken(memberId, null, Collections.emptyList());
 			SecurityContextHolder.getContext().setAuthentication(auth);
 

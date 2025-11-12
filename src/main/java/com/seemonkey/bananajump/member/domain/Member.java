@@ -35,7 +35,7 @@ public class Member {
 	@Column(name = "member_id")
 	private Long memberId;
 
-	@Column(name = "social_id", nullable = false)
+	@Column(name = "social_id", unique = true, nullable = false)
 	private String socialId;
 
 	@CreatedDate

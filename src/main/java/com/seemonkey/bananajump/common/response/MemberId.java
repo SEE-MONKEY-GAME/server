@@ -1,4 +1,4 @@
-package com.seemonkey.bananajump.common.filter;
+package com.seemonkey.bananajump.common.response;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
