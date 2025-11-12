@@ -96,6 +96,10 @@ public class Profile {
 		return Math.toIntExact(this.checkinStreak);
 	}
 
+	public void resetCheckinStreak() {
+		this.checkinStreak = 0L;
+	}
+
 	public enum SoundType {
 		BGM, EFFECT;
 	}

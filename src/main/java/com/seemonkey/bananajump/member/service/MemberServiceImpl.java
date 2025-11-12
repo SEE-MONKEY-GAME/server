@@ -63,18 +63,35 @@ public class MemberServiceImpl implements MemberService {
 		return BasicMemberDto.from(profile, closetList);
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public DailyCheckinStatusResDto getStatus(Long memberId) {
 		Profile profile = getProfile(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
-		boolean checked = last != null && last.isEqual(today);
+
+		// streak 보정용 변수
+		long streak = profile.getCheckinStreak();
+		boolean checkedToday = false;
+
+		if (last == null) {
+			// 첫 출석 전
+			streak = 0;
+		} else if (last.isEqual(today)) {
+			// 이미 오늘 출석 완료
+			checkedToday = true;
+		} else if (last.isEqual(today.minusDays(1)) && streak < 7) {
+			// 어제 출석 → 유지
+			// 아무 변화 없음
+		} else {
+			// 어제 이전이면 streak 리셋
+			profile.resetCheckinStreak();
+			streak = 0;
+		}
 
 		return new DailyCheckinStatusResDto(
-			checked,
+			checkedToday,
 			last,
-			profile.getCheckinStreak(),
+			streak,
 			today
 		);
 	}
