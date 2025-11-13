@@ -75,12 +75,12 @@ public class ItemServiceImpl implements ItemService {
 		profile.useCoin(totalCost);
 
 		// 아이템 지급
-		addItem(itemId, profile, quantity);
+		addItem(itemId, profile, quantity, false);
 
 	}
 
 	@Override
-	public void addItem(Long itemId, Profile profile, int quantity) {
+	public void addItem(Long itemId, Profile profile, int quantity, boolean ignoreMaxLimit) {
 
 		// item 개수 체크
 		int currentQty = Optional.ofNullable(
@@ -88,8 +88,11 @@ public class ItemServiceImpl implements ItemService {
 		).orElse(0);
 
 		// 상한 체크: current + 구매수량 > 50이면 에러
-		if (currentQty + quantity > DEFAULT_MAX_LIMIT)
+		if (currentQty + quantity > DEFAULT_MAX_LIMIT) {
+			if(ignoreMaxLimit) return;
+
 			throw new CustomException(ErrorType.ITEM_MAX_LIMIT);
+		}
 
 		// 인벤토리 갱신
 		int finalQuantity = inventoryRepository.upsertInventory(profile.getMemberId(), itemId, quantity);

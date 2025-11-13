@@ -13,5 +13,5 @@ public interface ItemService {
 
 	void useItem(Long itemId, Long memberId);
 
-	void addItem(Long itemId, Profile profile, int quantity);
+	void addItem(Long itemId, Profile profile, int quantity, boolean ignoreMaxLimit);
 }

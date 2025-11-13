@@ -78,7 +78,7 @@ public class CostumeServiceImpl implements CostumeService {
 		Closet closet = closetRepository.save(Closet.from(costume, profile));
 
 		// 새 코스튬 착용 저장
-		equippedCostumeRepository.save(EquippedCostume.from(profile, closet));
+		setEquipped(memberId, costume.getType(), costumeId);
 
 	}
 
