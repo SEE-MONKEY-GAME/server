@@ -63,30 +63,15 @@ public class MemberServiceImpl implements MemberService {
 		return BasicMemberDto.from(profile, closetList);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public DailyCheckinStatusResDto getStatus(Long memberId) {
 		Profile profile = getProfile(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
 
-		// streak 보정용 변수
-		long streak = profile.getCheckinStreak();
-		boolean checkedToday = false;
-
-		if (last == null) {
-			// 첫 출석 전
-			streak = 0;
-		} else if (last.isEqual(today)) {
-			// 이미 오늘 출석 완료
-			checkedToday = true;
-		} else if (last.isEqual(today.minusDays(1)) && streak < 7) {
-			// 어제 출석 → 유지
-			// 아무 변화 없음
-		} else {
-			// 어제 이전이면 streak 리셋
-			profile.resetCheckinStreak();
-			streak = 0;
-		}
+		long streak = calculateEffectiveStreak(profile, today);
+		boolean checkedToday = last != null && last.isEqual(today);
 
 		return new DailyCheckinStatusResDto(
 			checkedToday,
@@ -96,23 +81,60 @@ public class MemberServiceImpl implements MemberService {
 		);
 	}
 
+	private long calculateEffectiveStreak(Profile profile, LocalDate today) {
+		LocalDate last = profile.getLastCheckin();
+		long streak = profile.getCheckinStreak();
+
+		if (last == null) {
+			return 0;
+		}
+		if (last.isEqual(today)) {
+			// 이미 오늘 출석한 상태 → 그대로
+			return streak;
+		}
+		if (last.isEqual(today.minusDays(1)) && streak < 7) {
+			// 어제 출석했고, 아직 7일 미만 → 유지
+			return streak;
+		}
+		// 그 외: 끊긴 것으로 보고 0으로
+		return 0;
+	}
+
+
 	@Transactional
 	@Override
 	public DailyCheckinResultResDto doCheckin(Long memberId) {
 
-		Profile profile = getProfile(memberId);
+		Profile profile = getProfileForUpdate(memberId);
 		LocalDate today = LocalDate.now();
 		LocalDate last = profile.getLastCheckin();
 
 		// 이미 오늘 체크인 했다면 예외
-		if (last != null && last.isEqual(today))
+		if (last != null && last.isEqual(today)) {
 			throw new CustomException(ErrorType.ALREADY_CHECKED_IN);
+		}
 
-		int checkinStreak = profile.checkIn();
-		applyReward(profile, checkinStreak);
+		// 오늘 기준 유효 streak 계산
+		long effectiveStreak = calculateEffectiveStreak(profile, today);
 
-		return DailyCheckinResultResDto.from(getStatus(memberId));
+		// 7일 루프라면: 1~7 반복
+		int newStreak = (int)((effectiveStreak % 7) + 1);
+
+		// 프로필에 반영 (Profile에 메서드 하나 파는 것도 좋음)
+		profile.updateCheckin(today, newStreak);
+
+		// 보상 지급
+		applyReward(profile, newStreak);
+
+		// 최신 상태 리턴
+		return new DailyCheckinResultResDto(
+			true,
+			today,
+			newStreak,
+			today
+		);
 	}
+
 
 	private void applyReward(Profile profile, int checkinStreak) {
 
@@ -134,6 +156,11 @@ public class MemberServiceImpl implements MemberService {
 
 	private Profile getProfile(Long memberId) {
 		return profileRepository.findByMember_MemberId(memberId);
+	}
+
+	private Profile getProfileForUpdate(Long memberId) {
+		return profileRepository.findByMemberIdForUpdate(memberId)
+			.orElseThrow(() -> new CustomException(ErrorType.MEMBER_NOT_FOUND));
 	}
 
 }
