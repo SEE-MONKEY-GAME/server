@@ -48,7 +48,7 @@ public enum CheckinReward {
 
 		@Override
 		public void apply(Profile profile, ItemService itemService) {
-			itemService.addItem(itemId, profile, quantity);
+			itemService.addItem(itemId, profile, quantity, true);
 		}
 	}
 }
