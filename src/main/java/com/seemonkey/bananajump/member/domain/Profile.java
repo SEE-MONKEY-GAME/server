@@ -89,11 +89,9 @@ public class Profile {
 		this.coin -= amount;
 	}
 
-	public Integer checkIn() {
-		this.lastCheckin = LocalDate.now();
-		this.checkinStreak = this.checkinStreak + 1;
-
-		return Math.toIntExact(this.checkinStreak);
+	public void updateCheckin(LocalDate today, long newStreak) {
+		this.lastCheckin = today;
+		this.checkinStreak = newStreak;
 	}
 
 	public void resetCheckinStreak() {
