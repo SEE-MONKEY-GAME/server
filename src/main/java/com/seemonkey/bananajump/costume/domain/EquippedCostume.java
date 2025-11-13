@@ -51,6 +51,7 @@ public class EquippedCostume {
 
 	public static EquippedCostume from(Profile profile, Closet closet) {
 		return EquippedCostume.builder()
+			.id(new EquippedCostumeId(profile.getMemberId(), closet.getId()))
 			.profile(profile)
 			.closet(closet)
 			.costumeType(closet.getCostume().getType())
