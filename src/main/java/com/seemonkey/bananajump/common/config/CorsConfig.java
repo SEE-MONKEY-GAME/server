@@ -33,9 +33,8 @@ public class CorsConfig implements WebMvcConfigurer {
 		configuration.setAllowedOriginPatterns(
 			List.of("http://localhost:5173",
 				"https://banana-jump.vercel.app",
-				"http://localhost:8080",
-				"https://bananajump.shop/**",
-				"https://**"));
+				"https://banana-jump.private-apps.tossmini.com",
+				"https://banana-jump.apps.tossmini.com"));
 		// 허용 메서드 지정
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 		// 클라이언트 요청 허용 헤더
